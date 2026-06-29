@@ -28,23 +28,23 @@
     }
     .login-card {
       background: white;
-      padding: 50px 45px; /* Padding diperbesar agar bagian dalam lebih luas */
+      padding: 50px 45px; 
       border-radius: 20px;
       box-shadow: 0 15px 35px rgba(0,0,0,0.1);
       width: 100%;
-      max-width: 500px; /* Ukuran maksimal diperbesar dari 400px ke 500px */
-      border-top: 8px solid var(--chili); /* Border atas dibuat lebih tebal */
+      max-width: 500px; 
+      border-top: 8px solid var(--chili); 
       position: relative;
     }
     .login-card h3 {
-      font-size: 28px; /* Ukuran font judul login diperbesar */
+      font-size: 28px; 
     }
     .login-card .form-control {
-      padding: 12px 15px; /* Input box dibuat lebih tinggi dan besar */
+      padding: 12px 15px; 
       font-size: 14px;
     }
     .login-card .btn {
-      padding: 12px; /* Tombol masuk dibuat lebih besar */
+      padding: 12px; 
       font-size: 16px;
     }
     .login-watermark {
@@ -365,14 +365,16 @@
 
     <div class="mb-2 text-muted small fw-bold">Hasil Pencarian: <span id="agent-count" class="text-danger">0</span> Data Ditemukan</div>
     
-    <div class="agent-list-container" id="agent-cards-list">
-      </div>
+    <div class="agent-list-container" id="agent-cards-list"></div>
   </div>
 
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+  // ⚠️ TEMPELKAN LINK WEB APP GOOGLE SCRIPT ANDA DI BAWAH INI
+  const API_URL = "https://script.google.com/macros/s/AKfycbwQTX1j1hbSqqaczeFrIV3WtTZzXuUoJrzaxV63vbZmPVj1fYO5CYSupFF_rYgj5nXi/exec";
+
   let charts = {};
   let rawAgentMasterData = []; 
   let isAgentDataLoaded = false; 
@@ -402,16 +404,22 @@
   }
 
   function initializeAppDashboard() {
-    google.script.run.withSuccessHandler(opts => {
-      fillS('f-chan', opts.channels); fillS('f-mon', opts.months);
-      fillS('f-spv', opts.spvs); fillS('f-tl', opts.tls);
-      
-      fillS('fa-mon', opts.months);
-      fillS('fa-tl', opts.tls);
-      fillS('fa-peak', opts.peaks);
+    fetch(`${API_URL}?action=getFilterOptions`)
+      .then(response => response.json())
+      .then(opts => {
+        fillS('f-chan', opts.channels); fillS('f-mon', opts.months);
+        fillS('f-spv', opts.spvs); fillS('f-tl', opts.tls);
+        
+        fillS('fa-mon', opts.months);
+        fillS('fa-tl', opts.tls);
+        fillS('fa-peak', opts.peaks);
 
-      loadData(); 
-    }).getFilterOptions();
+        loadData(); 
+      })
+      .catch(err => {
+        console.error("Gagal mengambil opsi filter:", err);
+        document.getElementById('loading').style.display = 'none';
+      });
 
     initAgentTabEmptyState();
   }
@@ -449,11 +457,17 @@
         </div>
       `;
 
-      google.script.run.withSuccessHandler(res => {
-        rawAgentMasterData = res || [];
-        isAgentDataLoaded = true; 
-        executeLocalAgentFilter(fNik, fMon, fTl, fPeak);
-      }).getQualityData();
+      fetch(`${API_URL}?action=getQualityData`)
+        .then(response => response.json())
+        .then(res => {
+          rawAgentMasterData = res || [];
+          isAgentDataLoaded = true; 
+          executeLocalAgentFilter(fNik, fMon, fTl, fPeak);
+        })
+        .catch(err => {
+          console.error("Gagal mengambil data kualitas agen:", err);
+          document.getElementById('agent-cards-list').innerHTML = '<div class="alert alert-danger text-center">Gagal memuat data dari server.</div>';
+        });
       
     } else {
       executeLocalAgentFilter(fNik, fMon, fTl, fPeak);
@@ -554,29 +568,38 @@
 
   function loadData() {
     document.getElementById('loading').style.display = 'flex';
-    let f = { channel: document.getElementById('f-chan').value, month: document.getElementById('f-mon').value, spv: document.getElementById('f-spv').value, tl: document.getElementById('f-tl').value };
+    let channel = encodeURIComponent(document.getElementById('f-chan').value);
+    let month = encodeURIComponent(document.getElementById('f-mon').value);
+    let spv = encodeURIComponent(document.getElementById('f-spv').value);
+    let tl = encodeURIComponent(document.getElementById('f-tl').value);
     
-    google.script.run.withSuccessHandler(res => {
-      document.getElementById('v-total').innerText = res.totalSample;
-      updateBox('att', res.boxes["Attitude Compliance"]); updateBox('ski', res.boxes["Skill Compliance"]);
-      updateBox('kno', res.boxes["Knowledge Compliance"]); updateBox('ok', res.boxes["OK"]); updateBox('not', res.boxes["NOTES"]);
+    fetch(`${API_URL}?action=getDashboardData&channel=${channel}&month=${month}&spv=${spv}&tl=${tl}`)
+      .then(response => response.json())
+      .then(res => {
+        document.getElementById('v-total').innerText = res.totalSample;
+        updateBox('att', res.boxes["Attitude Compliance"]); updateBox('ski', res.boxes["Skill Compliance"]);
+        updateBox('kno', res.boxes["Knowledge Compliance"]); updateBox('ok', res.boxes["OK"]); updateBox('not', res.boxes["NOTES"]);
 
-      renderBar('c-qmon', res.qMonthly, 'Quality Score', '#C31F26');
-      renderBar('c-lmob', res.qLosMobile, 'Score', '#941318');
-      renderBar('c-lfix', res.qLosFixed, 'Score', '#941318');
-      renderBar('c-pqm', res.qPeakMobile, 'Score', '#E63946');
-      renderBar('c-pqf', res.qPeakFixed, 'Score', '#E63946');
+        renderBar('c-qmon', res.qMonthly, 'Quality Score', '#C31F26');
+        renderBar('c-lmob', res.qLosMobile, 'Score', '#941318');
+        renderBar('c-lfix', res.qLosFixed, 'Score', '#941318');
+        renderBar('c-pqm', res.qPeakMobile, 'Score', '#E63946');
+        renderBar('c-pqf', res.qPeakFixed, 'Score', '#E63946');
 
-      renderStacked('c-pmob', res.trendPeakMobile);
-      renderStacked('c-pfix', res.trendPeakFixed);
+        renderStacked('c-pmob', res.trendPeakMobile);
+        renderStacked('c-pfix', res.trendPeakFixed);
 
-      fillT('t-spv', res.qmSpv); fillT('t-tl', res.qmTl);
+        fillT('t-spv', res.qmSpv); fillT('t-tl', res.qmTl);
 
-      fillL('top-att', res.top10["Attitude Compliance"]); fillL('top-ski', res.top10["Skill Compliance"]);
-      fillL('top-kno', res.top10["Knowledge Compliance"]); fillL('top-not', res.top10["NOTES"]);
+        fillL('top-att', res.top10["Attitude Compliance"]); fillL('top-ski', res.top10["Skill Compliance"]);
+        fillL('top-kno', res.top10["Knowledge Compliance"]); fillL('top-not', res.top10["NOTES"]);
 
-      document.getElementById('loading').style.display = 'none';
-    }).getDashboardData(f);
+        document.getElementById('loading').style.display = 'none';
+      })
+      .catch(err => {
+        console.error("Gagal memuat data dashboard:", err);
+        document.getElementById('loading').style.display = 'none';
+      });
   }
 
   function updateBox(id, data) {
@@ -599,7 +622,7 @@
     let labels = Object.keys(data);
     let sets = ["Attitude Compliance", "Skill Compliance", "Knowledge Compliance", "OK", "NOTES"];
     let colors = ['#C31F26', '#F4A261', '#2A9D8F', '#28a745', '#ffc107'];
-    let datasets = sets.map((s, i) => ({ label: s, data: labels.map(l => data[l][s] || 0), backgroundColor: colors[i] }));
+    let datasets = sets.map((s, i) => ({ label: s, data: labels.map(l => (data[l] ? data[l][s] : 0) || 0), backgroundColor: colors[i] }));
     
     charts[id] = new Chart(document.getElementById(id), {
       type: 'bar',
@@ -615,7 +638,7 @@
 
   function fillL(id, data) {
     let d = document.getElementById(id); d.innerHTML = '';
-    if(data.length === 0) d.innerHTML = 'N/A';
+    if(!data || data.length === 0) { d.innerHTML = 'N/A'; return; }
     data.forEach(x => d.innerHTML += `<div class="border-bottom mb-1 d-flex justify-content-between"><span>${x.case}</span><span class="badge bg-danger">${x.count}</span></div>`);
   }
 
