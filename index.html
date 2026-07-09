@@ -156,6 +156,16 @@
       justify-content: center; 
       align-items: center; 
     }
+
+    /* ERROR BANNER (baru) */
+    #error-banner {
+      display: none;
+      position: fixed;
+      top: 15px; left: 50%;
+      transform: translateX(-50%);
+      z-index: 10500;
+      max-width: 90%;
+    }
   </style>
 </head>
 <body>
@@ -183,6 +193,8 @@
   <div class="spinner-border text-danger" style="width: 3rem; height: 3rem;"></div>
   <div class="mt-3 fw-bold">Memproses Data MIA...</div>
 </div>
+
+<div id="error-banner" class="alert alert-danger shadow"></div>
 
 <div id="app-sidebar" class="sidebar" style="display: none;">
   <div>
@@ -302,12 +314,18 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-  // SILAHKAN PASTI-KAN URL WEB APP ANDA DI BAWAH INI SUDAH BENAR BERAKHIRAN /exec
+  // SILAHKAN PASTIKAN URL WEB APP ANDA DI BAWAH INI SUDAH BENAR BERAKHIRAN /exec
   const API_URL = "https://script.google.com/macros/s/AKfycbwQTX1j1hbSqqaczeFrIV3WtTZzXuUoJrzaxV63vbZmPVj1fYO5CYSupFF_rYgj5nXi/exec";
 
   let charts = {};
 
-  // DIKEMBALIKAN SEPERTI SEMULA: Alur login langsung membuka screen utama & memanggil filter opsi
+  function showError(msg) {
+    const el = document.getElementById('error-banner');
+    el.innerText = msg;
+    el.style.display = 'block';
+    setTimeout(() => { el.style.display = 'none'; }, 8000);
+  }
+
   function checkLogin() {
     let userVal = document.getElementById('username').value.trim();
     let passVal = document.getElementById('password').value.trim();
@@ -318,7 +336,6 @@
       document.getElementById('app-main').style.display = 'block';
       document.getElementById('loading').style.display = 'flex';
       
-      // Ambil opsi filter dari spreadsheet saat masuk halaman utama
       initializeAppOptions();
     } else {
       document.getElementById('login-alert').classList.remove('d-none');
@@ -327,9 +344,15 @@
 
   function initializeAppOptions() {
     fetch(`${API_URL}?action=getFilterOptions`)
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) throw new Error('HTTP ' + response.status + ' saat memanggil API.');
+        return response.json();
+      })
       .then(opts => {
-        // Reset isi option agar bersih
+        if (opts.status === 'error') {
+          throw new Error(opts.message || 'Backend mengembalikan error saat mengambil filter.');
+        }
+
         document.getElementById('f-chan').innerHTML = '<option value="">All</option>';
         document.getElementById('f-mon').innerHTML = '<option value="">All</option>';
         document.getElementById('f-year').innerHTML = '<option value="">All</option>';
@@ -346,13 +369,13 @@
           opts.tls.forEach(t => { if(t) dl.innerHTML += `<option value="${t}">`; });
         }
 
-        // Tampilan data awal langsung disetel kosong agar pemuatan super cepat
         clearDashboardVisuals();
         document.getElementById('loading').style.display = 'none';
       })
-      .catch(err => { 
-        console.error(err); 
-        document.getElementById('loading').style.display = 'none'; 
+      .catch(err => {
+        console.error(err);
+        showError('Gagal mengambil opsi filter: ' + err.message + '. Cek deployment Apps Script (harus "Anyone" & versi terbaru), dan pastikan nama sheet "DETIL QM" benar.');
+        document.getElementById('loading').style.display = 'none';
       });
   }
 
@@ -404,8 +427,15 @@
     let tl = encodeURIComponent(document.getElementById('f-tl').value);
     
     fetch(`${API_URL}?action=getDashboardData&channel=${channel}&month=${month}&year=${year}&startDate=${startDate}&endDate=${endDate}&spv=${spv}&tl=${tl}`)
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) throw new Error('HTTP ' + response.status + ' saat memanggil API.');
+        return response.json();
+      })
       .then(res => {
+        if (res.status === 'error') {
+          throw new Error(res.message || 'Backend mengembalikan error saat mengambil data dashboard.');
+        }
+
         document.getElementById('v-total').innerText = res.totalSample;
         updateBox('att', res.boxes["Attitude Compliance"]); 
         updateBox('ski', res.boxes["Skill Compliance"]);
@@ -428,12 +458,16 @@
         fillAgentL('top-nok-mob', res.top10NokMobile);
         fillAgentL('top-nok-fix', res.top10NokFixed);
 
+        if (res.totalSample === 0) {
+          showError('Tidak ada data yang cocok dengan filter yang dipilih. Coba longgarkan filter (misalnya kosongkan Bulan/Tahun/Tgl).');
+        }
+
         document.getElementById('loading').style.display = 'none';
       })
       .catch(err => { 
         console.error(err); 
         document.getElementById('loading').style.display = 'none';
-        alert("Terjadi masalah saat memproses pencarian data.");
+        showError('Terjadi masalah saat memproses pencarian data: ' + err.message);
       });
   }
 
