@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
   <meta charset="UTF-8">
   <title>MIA - Monitoring Interaction Agent</title>
@@ -7,26 +7,155 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
   <style>
-    :root { --chili: #C31F26; --chili-dark: #941318; }
-    body { font-family: 'Poppins', sans-serif; background: #f4f7f6; }
-    #login-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #f4f7f6 0%, #e2e8f0 100%); z-index: 10000; display: flex; justify-content: center; align-items: center; }
-    .login-card { background: white; padding: 50px 45px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); width: 100%; max-width: 500px; border-top: 8px solid var(--chili); position: relative; }
-    .sidebar { position: fixed; top: 0; bottom: 0; left: 0; width: 260px; background: var(--chili); color: white; z-index: 100; display: flex; flex-direction: column; justify-content: space-between; }
-    .sidebar .brand { padding: 25px; background: var(--chili-dark); font-weight: 700; font-size: 24px; text-align: center; }
-    .nav-link { color: rgba(255,255,255,0.8); padding: 15px 25px; cursor: pointer; display: flex; align-items: center; }
-    .nav-link:hover { background: rgba(0,0,0,0.1); color: white; }
-    .nav-link.active { background: var(--chili-dark); color: white; border-left: 5px solid white; }
-    .logout-section { padding: 15px 25px; background: var(--chili-dark); cursor: pointer; display: flex; align-items: center; color: rgba(255,255,255,0.9); font-weight: 600; border-top: 1px solid rgba(255,255,255,0.1); }
-    .logout-section:hover { background: #6b0b0f; color: white; }
-    .main { margin-left: 260px; padding: 30px; }
-    .filter-card { background: white; border-radius: 15px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 25px; }
-    .kpi-card { background: white; border-radius: 12px; border-top: 5px solid var(--chili); box-shadow: 0 4px 10px rgba(0,0,0,0.05); height: 100%; display: flex; flex-direction: column; }
-    .kpi-val { font-size: 24px; font-weight: 700; color: var(--chili); }
-    .breakdown-box { flex-grow: 1; overflow-y: auto; max-height: 150px; font-size: 11px; margin-top: 10px; }
-    .chart-container { background: white; border-radius: 15px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 25px; height: 350px; }
-    .table-scroll-container { background: white; border-radius: 15px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 25px; height: 260px; overflow-y: auto; }
-    .chart-title { font-size: 14px; font-weight: 600; border-left: 4px solid var(--chili); padding-left: 10px; margin-bottom: 15px; }
-    #loading { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.9); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+    :root { 
+      --chili: #C31F26; 
+      --chili-dark: #941318; 
+    }
+    body { 
+      font-family: 'Poppins', sans-serif; 
+      background: #f4f7f6; 
+    }
+    
+    /* LOGIN SCREEN */
+    #login-screen { 
+      position: fixed; 
+      top: 0; left: 0; width: 100%; height: 100%; 
+      background: linear-gradient(135deg, #f4f7f6 0%, #e2e8f0 100%); 
+      z-index: 10000; 
+      display: flex; 
+      justify-content: center; 
+      align-items: center; 
+    }
+    .login-card { 
+      background: white; 
+      padding: 50px 45px; 
+      border-radius: 20px; 
+      box-shadow: 0 15px 35px rgba(0,0,0,0.1); 
+      width: 100%; 
+      max-width: 500px; 
+      border-top: 8px solid var(--chili); 
+      position: relative; 
+    }
+
+    /* SIDEBAR WITH LOGOUT ALIGNED BOTTOM */
+    .sidebar { 
+      position: fixed; 
+      top: 0; bottom: 0; left: 0; 
+      width: 260px; 
+      background: var(--chili); 
+      color: white; 
+      z-index: 100; 
+      display: flex; 
+      flex-direction: column; 
+      justify-content: space-between; 
+    }
+    .sidebar .brand { 
+      padding: 25px; 
+      background: var(--chili-dark); 
+      font-weight: 700; 
+      font-size: 24px; 
+      text-align: center; 
+    }
+    .nav-link { 
+      color: rgba(255,255,255,0.8); 
+      padding: 15px 25px; 
+      cursor: pointer; 
+      display: flex; 
+      align-items: center; 
+    }
+    .nav-link:hover { 
+      background: rgba(0,0,0,0.1); 
+      color: white; 
+    }
+    .nav-link.active { 
+      background: var(--chili-dark); 
+      color: white; 
+      border-left: 5px solid white; 
+    }
+    .logout-section { 
+      padding: 15px 25px; 
+      background: var(--chili-dark); 
+      cursor: pointer; 
+      display: flex; 
+      align-items: center; 
+      color: rgba(255,255,255,0.9); 
+      font-weight: 600; 
+      border-top: 1px solid rgba(255,255,255,0.1); 
+    }
+    .logout-section:hover { 
+      background: #6b0b0f; 
+      color: white; 
+    }
+    
+    /* MAIN INTERFACE */
+    .main { 
+      margin-left: 260px; 
+      padding: 30px; 
+    }
+    .filter-card { 
+      background: white; 
+      border-radius: 15px; 
+      padding: 20px; 
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05); 
+      margin-bottom: 25px; 
+    }
+    .kpi-card { 
+      background: white; 
+      border-radius: 12px; 
+      border-top: 5px solid var(--chili); 
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05); 
+      height: 100%; 
+      display: flex; 
+      flex-direction: column; 
+    }
+    .kpi-val { 
+      font-size: 24px; 
+      font-weight: 700; 
+      color: var(--chili); 
+    }
+    .breakdown-box { 
+      flex-grow: 1; 
+      overflow-y: auto; 
+      max-height: 150px; 
+      font-size: 11px; 
+      margin-top: 10px; 
+    }
+    .chart-container { 
+      background: white; 
+      border-radius: 15px; 
+      padding: 20px; 
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05); 
+      margin-bottom: 25px; 
+      height: 350px; 
+    }
+    .table-scroll-container { 
+      background: white; 
+      border-radius: 15px; 
+      padding: 20px; 
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05); 
+      margin-bottom: 25px; 
+      height: 260px; 
+      overflow-y: auto; 
+    }
+    .chart-title { 
+      font-size: 14px; 
+      font-weight: 600; 
+      border-left: 4px solid var(--chili); 
+      padding-left: 10px; 
+      margin-bottom: 15px; 
+    }
+    
+    /* LOADING OVERLAY */
+    #loading { 
+      position: fixed; 
+      top: 0; left: 0; width: 100%; height: 100%; 
+      background: rgba(255,255,255,0.9); 
+      z-index: 9999; 
+      display: flex; 
+      flex-direction: column; 
+      justify-content: center; 
+      align-items: center; 
+    }
   </style>
 </head>
 <body>
@@ -59,28 +188,58 @@
   <div>
     <div class="brand">MIA</div>
     <ul class="nav flex-column mt-4">
-      <li class="nav-item"><a class="nav-link active" id="m-dash" onclick="switchTab('dash')"><i class="fa-solid fa-house me-2"></i> Dashboard</a></li>
-      <li class="nav-item"><a class="nav-link" id="m-agent" onclick="switchTab('agent')"><i class="fa-solid fa-user me-2"></i> Quality per Agent</a></li>
+      <li class="nav-item">
+        <a class="nav-link active" id="m-dash" onclick="switchTab('dash')">
+          <i class="fa-solid fa-house me-2"></i> Dashboard
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="m-agent" onclick="switchTab('agent')">
+          <i class="fa-solid fa-user me-2"></i> Quality per Agent
+        </a>
+      </li>
     </ul>
   </div>
-  <div class="logout-section" onclick="processLogout()"><i class="fa-solid fa-right-from-bracket me-2"></i> Keluar / Logout</div>
+  <div class="logout-section" onclick="processLogout()">
+    <i class="fa-solid fa-right-from-bracket me-2"></i> Keluar / Logout
+  </div>
 </div>
 
 <div id="app-main" class="main" style="display: none;">
   <div id="dash-content">
     <div class="d-flex justify-content-between align-items-center mb-4">
       <h3 class="fw-bold mb-0">Monitoring Interaction Agent (MIA)</h3>
-      <button class="btn btn-dark btn-sm px-3" onclick="window.print()"><i class="fa-solid fa-file-pdf me-2"></i>Download PDF</button>
+      <button class="btn btn-dark btn-sm px-3" onclick="window.print()">
+        <i class="fa-solid fa-file-pdf me-2"></i>Download PDF
+      </button>
     </div>
     
     <div class="filter-card">
       <div class="row g-3 align-items-end">
-        <div class="col-md-2"><label class="form-label small fw-bold">Channel</label><select id="f-chan" class="form-select form-select-sm"><option value="">All</option></select></div>
-        <div class="col-md-2"><label class="form-label small fw-bold">Bulan</label><select id="f-mon" class="form-select form-select-sm"><option value="">All</option></select></div>
-        <div class="col-md-2"><label class="form-label small fw-bold">Tahun</label><select id="f-year" class="form-select form-select-sm"><option value="">All</option></select></div>
-        <div class="col-md-2"><label class="form-label small fw-bold">Tgl Awal (AC)</label><input type="date" id="f-start-date" class="form-control form-control-sm"></div>
-        <div class="col-md-2"><label class="form-label small fw-bold">Tgl Akhir (AC)</label><input type="date" id="f-end-date" class="form-control form-control-sm"></div>
-        <div class="col-md-2"><label class="form-label small fw-bold">SPV</label><select id="f-spv" class="form-select form-select-sm"><option value="">All</option></select></div>
+        <div class="col-md-2">
+          <label class="form-label small fw-bold">Channel</label>
+          <select id="f-chan" class="form-select form-select-sm"><option value="">All</option></select>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label small fw-bold">Bulan</label>
+          <select id="f-mon" class="form-select form-select-sm"><option value="">All</option></select>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label small fw-bold">Tahun</label>
+          <select id="f-year" class="form-select form-select-sm"><option value="">All</option></select>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label small fw-bold">Tgl Awal (AC)</label>
+          <input type="date" id="f-start-date" class="form-control form-control-sm">
+        </div>
+        <div class="col-md-2">
+          <label class="form-label small fw-bold">Tgl Akhir (AC)</label>
+          <input type="date" id="f-end-date" class="form-control form-control-sm">
+        </div>
+        <div class="col-md-2">
+          <label class="form-label small fw-bold">SPV</label>
+          <select id="f-spv" class="form-select form-select-sm"><option value="">All</option></select>
+        </div>
         
         <div class="col-md-4">
           <label class="form-label small fw-bold">TL (Bisa Diketik & Dicari)</label>
@@ -89,8 +248,12 @@
         </div>
         
         <div class="col-md-8 text-end">
-          <button class="btn btn-danger btn-sm px-4" onclick="loadData()"><i class="fa fa-search me-1"></i> Cari</button>
-          <button class="btn btn-outline-secondary btn-sm px-3" onclick="resetFilter()"><i class="fa fa-undo me-1"></i> Reset</button>
+          <button class="btn btn-danger btn-sm px-4" onclick="loadData()">
+            <i class="fa fa-search me-1"></i> Cari
+          </button>
+          <button class="btn btn-outline-secondary btn-sm px-3" onclick="resetFilter()">
+            <i class="fa fa-undo me-1"></i> Reset
+          </button>
         </div>
       </div>
     </div>
@@ -130,26 +293,116 @@
       <div class="col-md-6"><div class="chart-container h-auto"><div class="chart-title">TOP 10 NOK Agent Fixed</div><div id="top-nok-fix" class="small"></div></div></div>
     </div>
   </div>
+
+  <div id="agent-content" class="d-none">
+    <h3 class="fw-bold mb-4">Quality per Agent</h3>
+    <p class="text-muted small">Fitur pencarian riwayat data detil per individu agent.</p>
+  </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+  // GANTI DENGAN URL WEB APP DEPLOYMENT BARU ANDA JIKA BERUBAH
+  const API_URL = "https://script.google.com/macros/s/AKfycbwQTX1j1hbSqqaczeFrIV3WtTZzXuUoJrzaxV63vbZmPVj1fYO5CYSupFF_rYgj5nXi/exec";
+
   let charts = {};
+  let cachedFilters = null;
+
+  // Preload data opsi filter di background semenjak halaman pertama kali dibuka agar login instan
+  window.addEventListener('DOMContentLoaded', () => {
+    preloadFilterOptions();
+  });
+
+  function preloadFilterOptions() {
+    fetch(`${API_URL}?action=getFilterOptions`)
+      .then(response => response.json())
+      .then(opts => {
+        cachedFilters = opts;
+      })
+      .catch(err => {
+        console.error("Gagal memuat opsi filter di background:", err);
+      });
+  }
 
   function checkLogin() {
     let userVal = document.getElementById('username').value.trim();
     let passVal = document.getElementById('password').value.trim();
+    
     if (userVal === "qc" && passVal === "188") {
-      document.getElementById('login-screen').style.display = 'none';
-      document.getElementById('app-sidebar').style.display = 'flex';
-      document.getElementById('app-main').style.display = 'block';
       document.getElementById('loading').style.display = 'flex';
       
-      // Kecepatan dioptimalkan: Hanya mengambil opsi filter di awal, data utama dibiarkan kosong
-      initializeAppOptions();
+      // Jika data filter latar belakang siap, langsung masuk (Super Cepat!)
+      if (cachedFilters) {
+        applyFilterOptions(cachedFilters);
+        enterDashboard();
+      } else {
+        // Fallback jika belum selesai termuat, ditunggu maks 12 detik agar tidak stuck loading
+        let timeout = setTimeout(() => {
+          document.getElementById('loading').style.display = 'none';
+          alert("Koneksi jaringan lambat. Silahkan klik tombol Masuk kembali.");
+        }, 12000);
+
+        fetch(`${API_URL}?action=getFilterOptions`)
+          .then(response => response.json())
+          .then(opts => {
+            clearTimeout(timeout);
+            applyFilterOptions(opts);
+            enterDashboard();
+          })
+          .catch(err => {
+            clearTimeout(timeout);
+            document.getElementById('loading').style.display = 'none';
+            alert("Gagal terhubung dengan server backend Apps Script.");
+            console.error(err);
+          });
+      }
     } else {
       document.getElementById('login-alert').classList.remove('d-none');
     }
+  }
+
+  function applyFilterOptions(opts) {
+    document.getElementById('f-chan').innerHTML = '<option value="">All</option>';
+    document.getElementById('f-mon').innerHTML = '<option value="">All</option>';
+    document.getElementById('f-year').innerHTML = '<option value="">All</option>';
+    document.getElementById('f-spv').innerHTML = '<option value="">All</option>';
+    document.getElementById('tl-options').innerHTML = '';
+
+    fillS('f-chan', opts.channels); 
+    fillS('f-mon', opts.months);
+    fillS('f-year', opts.years); 
+    fillS('f-spv', opts.spvs);
+    
+    let dl = document.getElementById('tl-options');
+    if(opts.tls) {
+      opts.tls.forEach(t => { if(t) dl.innerHTML += `<option value="${t}">`; });
+    }
+  }
+
+  function enterDashboard() {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('app-sidebar').style.display = 'flex';
+    document.getElementById('app-main').style.display = 'block';
+    document.getElementById('loading').style.display = 'none';
+    
+    // Sesuai Rekues: Tampilan awal dikosongkan sebelum klik 'Cari'
+    clearDashboardVisuals();
+  }
+
+  function clearDashboardVisuals() {
+    document.getElementById('v-total').innerText = "0";
+    ['att', 'ski', 'kno', 'ok'].forEach(id => {
+      document.getElementById('v-' + id).innerText = '0%';
+      document.getElementById('b-' + id).innerHTML = '';
+    });
+    for (let id in charts) { if (charts[id]) charts[id].destroy(); }
+    document.getElementById('t-spv').querySelector('tbody').innerHTML = '';
+    document.getElementById('t-tl').querySelector('tbody').innerHTML = '';
+    document.getElementById('top-att').innerHTML = '';
+    document.getElementById('top-ski').innerHTML = '';
+    document.getElementById('top-kno').innerHTML = '';
+    document.getElementById('top-nok-mob').innerHTML = '<div class="text-muted text-center py-2">Silahkan tentukan filter dan klik tombol Cari</div>';
+    document.getElementById('top-nok-fix').innerHTML = '<div class="text-muted text-center py-2">Silahkan tentukan filter dan klik tombol Cari</div>';
   }
 
   function handleLoginKey(e) { if (e.key === 'Enter') checkLogin(); }
@@ -161,25 +414,8 @@
     document.getElementById('app-sidebar').style.display = 'none';
     document.getElementById('app-main').style.display = 'none';
     document.getElementById('login-alert').classList.add('d-none');
-  }
-
-  function initializeAppOptions() {
-    fetch(`${API_URL}?action=getFilterOptions`)
-      .then(response => response.json())
-      .then(opts => {
-        fillS('f-chan', opts.channels); 
-        fillS('f-mon', opts.months);
-        fillS('f-year', opts.years); 
-        fillS('f-spv', opts.spvs);
-        
-        // Memasukkan opsi TL ke datalist search
-        let dl = document.getElementById('tl-options');
-        dl.innerHTML = '';
-        opts.tls.forEach(t => { if(t) dl.innerHTML += `<option value="${t}">`; });
-
-        document.getElementById('loading').style.display = 'none';
-      })
-      .catch(err => { console.error(err); document.getElementById('loading').style.display = 'none'; });
+    cachedFilters = null;
+    preloadFilterOptions(); // Ambil ulang data fresh opsi
   }
 
   function fillS(id, data) {
@@ -189,7 +425,7 @@
 
   function resetFilter() {
     ['f-chan','f-mon','f-year','f-start-date','f-end-date','f-spv','f-tl'].forEach(id => document.getElementById(id).value = '');
-    loadData();
+    clearDashboardVisuals();
   }
 
   function loadData() {
@@ -229,7 +465,11 @@
 
         document.getElementById('loading').style.display = 'none';
       })
-      .catch(err => { console.error(err); document.getElementById('loading').style.display = 'none'; });
+      .catch(err => { 
+        console.error(err); 
+        document.getElementById('loading').style.display = 'none';
+        alert("Terjadi masalah saat memproses pencarian data.");
+      });
   }
 
   function updateBox(id, data) {
@@ -250,6 +490,7 @@
     });
   }
 
+  // Fungsi gambar grafik batang harian bertumpuk terurut dari tgl 1 - 31 secara berurutan
   function renderStacked(id, data) {
     if(charts[id]) charts[id].destroy();
     let labels = Object.keys(data).sort((a,b) => parseInt(a) - parseInt(b));
@@ -277,7 +518,7 @@
 
   function fillAgentL(id, data) {
     let d = document.getElementById(id); d.innerHTML = '';
-    if(!data || data.length === 0) { d.innerHTML = '<div class="text-muted text-center py-2">Tidak ada data deviasi</div>'; return; }
+    if(!data || data.length === 0) { d.innerHTML = '<div class="text-muted text-center py-2">Tidak ada data deviasi (100% OK)</div>'; return; }
     data.forEach(x => d.innerHTML += `<div class="border-bottom mb-1 d-flex justify-content-between"><span>${x.agent}</span><span class="badge bg-dark">${x.count} Kasus NOK</span></div>`);
   }
 
