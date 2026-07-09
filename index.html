@@ -16,7 +16,6 @@
       background: #f4f7f6; 
     }
     
-    /* LOGIN SCREEN - BIGGER & LARGER VERSION */
     #login-screen {
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
@@ -36,38 +35,19 @@
       border-top: 8px solid var(--chili); 
       position: relative;
     }
-    .login-card h3 {
-      font-size: 28px; 
-    }
-    .login-card .form-control {
-      padding: 12px 15px; 
-      font-size: 14px;
-    }
-    .login-card .btn {
-      padding: 12px; 
-      font-size: 16px;
-    }
-    .login-watermark {
-      position: absolute;
-      bottom: 25px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 12px;
-      color: #a0aec0;
-      font-weight: 500;
-      letter-spacing: 0.5px;
-    }
+    .login-card h3 { font-size: 28px; }
 
-    /* SIDEBAR SYSTEM */
+    /* SIDEBAR WITH LOGOUT BOTTOM */
     .sidebar { 
       position: fixed; 
-      top: 0; 
-      bottom: 0; 
-      left: 0; 
+      top: 0; bottom: 0; left: 0; 
       width: 260px; 
       background: var(--chili); 
       color: white; 
       z-index: 100; 
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
     .sidebar .brand { 
       padding: 25px; 
@@ -83,140 +63,53 @@
       display: flex;
       align-items: center;
     }
-    .nav-link:hover {
-      background: rgba(0,0,0,0.1);
-      color: white;
-    }
+    .nav-link:hover { background: rgba(0,0,0,0.1); color: white; }
     .nav-link.active { 
       background: var(--chili-dark); 
       color: white; 
       border-left: 5px solid white; 
     }
-    
-    /* MAIN CONTENT AREA */
-    .main { 
-      margin-left: 260px; 
-      padding: 30px; 
+    .logout-section {
+      padding: 15px 25px;
+      background: var(--chili-dark);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      color: rgba(255,255,255,0.9);
+      font-weight: 600;
+      border-top: 1px solid rgba(255,255,255,0.1);
     }
+    .logout-section:hover { background: #6b0b0f; color: white; }
     
-    /* FILTER CARD & COMPONENT STYLING */
+    .main { margin-left: 260px; padding: 30px; }
     .filter-card { 
-      background: white; 
-      border-radius: 15px; 
-      padding: 20px; 
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05); 
-      margin-bottom: 25px; 
+      background: white; border-radius: 15px; padding: 20px; 
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 25px; 
     }
     .kpi-card { 
-      background: white; 
-      border-radius: 12px; 
-      border-top: 5px solid var(--chili); 
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05); 
-      height: 100%; 
-      display: flex; 
-      flex-direction: column; 
+      background: white; border-radius: 12px; border-top: 5px solid var(--chili); 
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05); height: 100%; display: flex; flex-direction: column; 
     }
-    .kpi-val { 
-      font-size: 24px; 
-      font-weight: 700; 
-      color: var(--chili); 
-    }
-    .breakdown-box { 
-      flex-grow: 1; 
-      overflow-y: auto; 
-      max-height: 150px; 
-      font-size: 11px; 
-      margin-top: 10px; 
-    }
+    .kpi-val { font-size: 24px; font-weight: 700; color: var(--chili); }
+    .breakdown-box { flex-grow: 1; overflow-y: auto; max-height: 150px; font-size: 11px; margin-top: 10px; }
     .chart-container { 
-      background: white; 
-      border-radius: 15px; 
-      padding: 20px; 
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05); 
-      margin-bottom: 25px; 
-      height: 350px; 
+      background: white; border-radius: 15px; padding: 20px; 
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 25px; height: 350px; 
     }
     .table-scroll-container { 
-      background: white; 
-      border-radius: 15px; 
-      padding: 20px; 
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05); 
-      margin-bottom: 25px; 
-      height: 260px; 
-      overflow-y: auto; 
+      background: white; border-radius: 15px; padding: 20px; 
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 25px; height: 260px; overflow-y: auto; 
     }
     .chart-title { 
-      font-size: 14px; 
-      font-weight: 600; 
-      border-left: 4px solid var(--chili); 
-      padding-left: 10px; 
-      margin-bottom: 15px; 
+      font-size: 14px; font-weight: 600; border-left: 4px solid var(--chili); padding-left: 10px; margin-bottom: 15px; 
     }
-    
-    /* GLOBAL LOADING OVERLAY */
     #loading { 
-      position: fixed; 
-      top: 0; 
-      left: 0; 
-      width: 100%; 
-      height: 100%; 
-      background: rgba(255,255,255,0.9); 
-      z-index: 9999; 
-      display: flex; 
-      flex-direction: column; 
-      justify-content: center; 
-      align-items: center; 
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+      background: rgba(255,255,255,0.9); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; 
     }
-    
-    /* AREA QUALITY PER AGENT (VERTIKAL PENUH) */
-    .agent-list-container { 
-      max-height: calc(100vh - 280px); 
-      overflow-y: auto; 
-      padding-right: 5px; 
-    }
-    .agent-card { 
-      background: white; 
-      border-radius: 12px; 
-      border-left: 5px solid var(--chili); 
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05); 
-      margin-bottom: 15px; 
-      padding: 15px; 
-      transition: 0.2s; 
-    }
-    .agent-card:hover { 
-      transform: translateY(-2px); 
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
-    }
-    .info-grid { 
-      display: grid; 
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
-      gap: 12px; 
-      font-size: 11px; 
-      margin-top: 10px; 
-      background: #fafafa; 
-      padding: 12px; 
-      border-radius: 8px; 
-    }
-    .info-item span { 
-      color: #777; 
-      font-weight: 600; 
-      display: block; 
-      font-size: 10px; 
-      text-transform: uppercase; 
-      margin-bottom: 2px;
-    }
-    .info-item strong { 
-      color: #1a1a1a; 
-      word-break: break-all;
-    }
-
-    @media print {
-      body { background: white; color: black; }
-      .sidebar, .filter-card, #loading, .btn-download-pdf, #login-screen { display: none !important; }
-      .main { margin-left: 0 !important; padding: 0 !important; }
-      .chart-container, .table-scroll-container { box-shadow: none !important; border: 1px solid #ccc !important; height: auto !important; page-break-inside: avoid; }
-      .table-scroll-container { height: auto !important; overflow-y: visible !important; }
-    }
+    .agent-list-container { max-height: calc(100vh - 280px); overflow-y: auto; }
+    .agent-card { background: white; border-radius: 12px; border-left: 5px solid var(--chili); box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 15px; padding: 15px; }
+    .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; font-size: 11px; background: #fafafa; padding: 12px; border-radius: 8px; }
   </style>
 </head>
 <body>
@@ -238,7 +131,6 @@
     </div>
     <button class="btn btn-danger w-100 fw-bold" onclick="checkLogin()">Masuk Ke Dashboard</button>
   </div>
-  <div class="login-watermark">©2026 onDev@mockupOps</div>
 </div>
 
 <div id="loading" style="display: none;">
@@ -247,27 +139,31 @@
 </div>
 
 <div id="app-sidebar" class="sidebar" style="display: none;">
-  <div class="brand">MIA</div>
-  <ul class="nav flex-column mt-4">
-    <li class="nav-item">
-      <a class="nav-link active" id="m-dash" onclick="switchTab('dash')">
-        <i class="fa class fa-home me-2"></i> Dashboard
-      </a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" id="m-agent" onclick="switchTab('agent')">
-        <i class="fa class fa-user me-2"></i> Quality per Agent
-      </a>
-    </li>
-  </ul>
+  <div>
+    <div class="brand">MIA</div>
+    <ul class="nav flex-column mt-4">
+      <li class="nav-item">
+        <a class="nav-link active" id="m-dash" onclick="switchTab('dash')">
+          <i class="fa-solid fa-house me-2"></i> Dashboard
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="m-agent" onclick="switchTab('agent')">
+          <i class="fa-solid fa-user me-2"></i> Quality per Agent
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class="logout-section" onclick="processLogout()">
+    <i class="fa-solid fa-right-from-bracket me-2"></i> Keluar / Logout
+  </div>
 </div>
 
 <div id="app-main" class="main" style="display: none;">
-  
   <div id="dash-content">
     <div class="d-flex justify-content-between align-items-center mb-4">
       <h3 class="fw-bold mb-0">Monitoring Interaction Agent (MIA)</h3>
-      <button class="btn btn-dark btn-sm px-3 btn-download-pdf" onclick="downloadPDF()">
+      <button class="btn btn-dark btn-sm px-3" onclick="window.print()">
         <i class="fa-solid fa-file-pdf me-2"></i>Download PDF
       </button>
     </div>
@@ -283,14 +179,26 @@
           <select id="f-mon" class="form-select form-select-sm"><option value="">All</option></select>
         </div>
         <div class="col-md-2">
+          <label class="form-label small fw-bold">Tahun</label>
+          <select id="f-year" class="form-select form-select-sm"><option value="">All</option></select>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label small fw-bold">Tgl Awal (AC)</label>
+          <input type="date" id="f-start-date" class="form-control form-control-sm">
+        </div>
+        <div class="col-md-2">
+          <label class="form-label small fw-bold">Tgl Akhir (AC)</label>
+          <input type="date" id="f-end-date" class="form-control form-control-sm">
+        </div>
+        <div class="col-md-1">
           <label class="form-label small fw-bold">SPV</label>
           <select id="f-spv" class="form-select form-select-sm"><option value="">All</option></select>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-1">
           <label class="form-label small fw-bold">TL</label>
           <select id="f-tl" class="form-select form-select-sm"><option value="">All</option></select>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-12 text-end mt-2">
           <button class="btn btn-danger btn-sm px-4" onclick="loadData()"><i class="fa fa-search me-1"></i> Cari</button>
           <button class="btn btn-outline-secondary btn-sm px-3" onclick="resetFilter()"><i class="fa fa-undo me-1"></i> Reset</button>
         </div>
@@ -303,23 +211,17 @@
       <div class="col"><div class="kpi-card p-3"><div class="small fw-bold text-muted">SKILL</div><div class="kpi-val" id="v-ski">0%</div><div class="breakdown-box" id="b-ski"></div></div></div>
       <div class="col"><div class="kpi-card p-3"><div class="small fw-bold text-muted">KNOWLEDGE</div><div class="kpi-val" id="v-kno">0%</div><div class="breakdown-box" id="b-kno"></div></div></div>
       <div class="col"><div class="kpi-card p-3" style="border-color: green;"><div class="small fw-bold text-muted">OK</div><div class="kpi-val text-success" id="v-ok">0%</div><div class="breakdown-box" id="b-ok"></div></div></div>
-      <div class="col"><div class="kpi-card p-3" style="border-color: orange;"><div class="small fw-bold text-muted">NOTES</div><div class="kpi-val text-warning" id="v-not">0%</div><div class="breakdown-box" id="b-not"></div></div></div>
     </div>
 
     <div class="row">
       <div class="col-md-4"><div class="chart-container"><div class="chart-title">Trend Quality Monthly Mobile & Fixed</div><canvas id="c-qmon"></canvas></div></div>
-      <div class="col-md-4"><div class="chart-container"><div class="chart-title">Trend Peakly Mobile (Param M)</div><canvas id="c-pmob"></canvas></div></div>
-      <div class="col-md-4"><div class="chart-container"><div class="chart-title">Trend Peakly Fixed (Param M)</div><canvas id="c-pfix"></canvas></div></div>
+      <div class="col-md-4"><div class="chart-container"><div class="chart-title">Trend Daily Parameter Mobile</div><canvas id="c-pmob"></canvas></div></div>
+      <div class="col-md-4"><div class="chart-container"><div class="chart-title">Trend Daily Parameter Fixed</div><canvas id="c-pfix"></canvas></div></div>
     </div>
 
     <div class="row">
-      <div class="col-md-6"><div class="chart-container"><div class="chart-title">Trend Quality Mobile based on LOS</div><canvas id="c-lmob"></canvas></div></div>
-      <div class="col-md-6"><div class="chart-container"><div class="chart-title">Trend Quality Fixed based on LOS</div><canvas id="c-lfix"></canvas></div></div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-6"><div class="chart-container"><div class="chart-title">Trend Quality Peakly Mobile</div><canvas id="c-pqm"></canvas></div></div>
-      <div class="col-md-6"><div class="chart-container"><div class="chart-title">Trend Quality Peakly Fixed</div><canvas id="c-pqf"></canvas></div></div>
+      <div class="col-md-6"><div class="chart-container"><div class="chart-title">Trend Quality Mobile based on LOS (Daily)</div><canvas id="c-lmob"></canvas></div></div>
+      <div class="col-md-6"><div class="chart-container"><div class="chart-title">Trend Quality Fixed based on LOS (Daily)</div><canvas id="c-lfix"></canvas></div></div>
     </div>
 
     <div class="row">
@@ -328,79 +230,53 @@
     </div>
 
     <div class="row mt-4 g-3">
-      <div class="col-md-3"><div class="chart-container h-auto"><div class="chart-title">TOP 10 Attitude</div><div id="top-att" class="small"></div></div></div>
-      <div class="col-md-3"><div class="chart-container h-auto"><div class="chart-title">TOP 10 Skill</div><div id="top-ski" class="small"></div></div></div>
-      <div class="col-md-3"><div class="chart-container h-auto"><div class="chart-title">TOP 10 Knowledge</div><div id="top-kno" class="small"></div></div></div>
-      <div class="col-md-3"><div class="chart-container h-auto"><div class="chart-title">TOP 10 Notes</div><div id="top-not" class="small"></div></div></div>
+      <div class="col-md-4"><div class="chart-container h-auto"><div class="chart-title">TOP 10 Attitude</div><div id="top-att" class="small"></div></div></div>
+      <div class="col-md-4"><div class="chart-container h-auto"><div class="chart-title">TOP 10 Skill</div><div id="top-ski" class="small"></div></div></div>
+      <div class="col-md-4"><div class="chart-container h-auto"><div class="chart-title">TOP 10 Knowledge</div><div id="top-kno" class="small"></div></div></div>
+    </div>
+
+    <div class="row mt-3 g-3">
+      <div class="col-md-6"><div class="chart-container h-auto"><div class="chart-title">TOP 10 NOK Agent Mobile</div><div id="top-nok-mob" class="small"></div></div></div>
+      <div class="col-md-6"><div class="chart-container h-auto"><div class="chart-title">TOP 10 NOK Agent Fixed</div><div id="top-nok-fix" class="small"></div></div></div>
     </div>
   </div>
 
   <div id="agent-content" class="d-none">
     <h3 class="fw-bold mb-4">Quality per Agent</h3>
-    
-    <div class="filter-card">
-      <div class="row g-3 align-items-end">
-        <div class="col-md-3">
-          <label class="form-label small fw-bold">Search NIK CSDM (Kolom C)</label>
-          <input type="text" id="fa-nik" class="form-control form-control-sm" placeholder="Ketik NIK Agent...">
-        </div>
-        <div class="col-md-2">
-          <label class="form-label small fw-bold">Month (Kolom AB)</label>
-          <select id="fa-mon" class="form-select form-select-sm"><option value="">All</option></select>
-        </div>
-        <div class="col-md-3">
-          <label class="form-label small fw-bold">Nama TL (Kolom AD)</label>
-          <select id="fa-tl" class="form-select form-select-sm"><option value="">All</option></select>
-        </div>
-        <div class="col-md-2">
-          <label class="form-label small fw-bold">Peak (Kolom Z)</label>
-          <select id="fa-peak" class="form-select form-select-sm"><option value="">All</option></select>
-        </div>
-        <div class="col-md-2">
-          <button class="btn btn-danger btn-sm w-100 mb-1" onclick="filterAgentData()"><i class="fa fa-search me-1"></i> Cari</button>
-          <button class="btn btn-outline-secondary btn-sm w-100" onclick="resetAgentFilter()"><i class="fa fa-undo me-1"></i> Reset</button>
-        </div>
-      </div>
     </div>
-
-    <div class="mb-2 text-muted small fw-bold">Hasil Pencarian: <span id="agent-count" class="text-danger">0</span> Data Ditemukan</div>
-    
-    <div class="agent-list-container" id="agent-cards-list"></div>
-  </div>
-
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-  // ⚠️ TEMPELKAN LINK WEB APP GOOGLE SCRIPT ANDA DI BAWAH INI
   const API_URL = "https://script.google.com/macros/s/AKfycbwQTX1j1hbSqqaczeFrIV3WtTZzXuUoJrzaxV63vbZmPVj1fYO5CYSupFF_rYgj5nXi/exec";
 
   let charts = {};
   let rawAgentMasterData = []; 
   let isAgentDataLoaded = false; 
 
-  // LOGIKA LOGIN VALIDASI
   function checkLogin() {
     let userVal = document.getElementById('username').value.trim();
     let passVal = document.getElementById('password').value.trim();
-    let alertEl = document.getElementById('login-alert');
-
     if (userVal === "qc" && passVal === "188") {
       document.getElementById('login-screen').style.display = 'none';
-      document.getElementById('app-sidebar').style.display = 'block';
+      document.getElementById('app-sidebar').style.display = 'flex';
       document.getElementById('app-main').style.display = 'block';
       document.getElementById('loading').style.display = 'flex';
-      
       initializeAppDashboard();
     } else {
-      alertEl.classList.remove('d-none');
+      document.getElementById('login-alert').classList.remove('d-none');
     }
   }
 
-  function handleLoginKey(e) {
-    if (e.key === 'Enter') {
-      checkLogin();
-    }
+  function handleLoginKey(e) { if (e.key === 'Enter') checkLogin(); }
+
+  function processLogout() {
+    document.getElementById('username').value = '';
+    document.getElementById('password').value = '';
+    document.getElementById('login-screen').style.display = 'flex';
+    document.getElementById('app-sidebar').style.display = 'none';
+    document.getElementById('app-main').style.display = 'none';
+    document.getElementById('login-alert').classList.add('d-none');
   }
 
   function initializeAppDashboard() {
@@ -408,161 +284,21 @@
       .then(response => response.json())
       .then(opts => {
         fillS('f-chan', opts.channels); fillS('f-mon', opts.months);
-        fillS('f-spv', opts.spvs); fillS('f-tl', opts.tls);
-        
-        fillS('fa-mon', opts.months);
-        fillS('fa-tl', opts.tls);
-        fillS('fa-peak', opts.peaks);
-
+        fillS('f-year', opts.years); fillS('f-spv', opts.spvs); fillS('f-tl', opts.tls);
         loadData(); 
       })
-      .catch(err => {
-        console.error("Gagal mengambil opsi filter:", err);
-        document.getElementById('loading').style.display = 'none';
-      });
-
-    initAgentTabEmptyState();
+      .catch(err => { console.error(err); document.getElementById('loading').style.display = 'none'; });
   }
 
   function fillS(id, data) {
     let s = document.getElementById(id);
     if(s && data) {
-      data.forEach(d => {
-        if(d) s.innerHTML += `<option value="${d}">${d}</option>`;
-      });
+      data.forEach(d => { if(d) s.innerHTML += `<option value="${d}">${d}</option>`; });
     }
   }
 
-  function initAgentTabEmptyState() {
-    document.getElementById('agent-count').innerText = "0";
-    document.getElementById('agent-cards-list').innerHTML = `
-      <div class="alert alert-info text-center py-4">
-        <i class="fa fa-search fa-2x mb-2 text-secondary"></i>
-        <p class="mb-0 fw-bold">Silakan gunakan filter di atas dan klik tombol "Cari" untuk menampilkan riwayat data.</p>
-      </div>
-    `;
-  }
-
-  function filterAgentData() {
-    let fNik = document.getElementById('fa-nik').value.toLowerCase().trim();
-    let fMon = document.getElementById('fa-mon').value;
-    let fTl = document.getElementById('fa-tl').value;
-    let fPeak = document.getElementById('fa-peak').value;
-
-    if (!isAgentDataLoaded) {
-      document.getElementById('agent-cards-list').innerHTML = `
-        <div class="text-center py-5">
-          <div class="spinner-border text-danger" role="status" style="width: 2.5rem; height: 2.5rem;"></div>
-          <div class="mt-2 fw-bold text-muted">Menarik data dari sheet 'DETIL QM' (Hanya dilakukan sekali)...</div>
-        </div>
-      `;
-
-      fetch(`${API_URL}?action=getQualityData`)
-        .then(response => response.json())
-        .then(res => {
-          rawAgentMasterData = res || [];
-          isAgentDataLoaded = true; 
-          executeLocalAgentFilter(fNik, fMon, fTl, fPeak);
-        })
-        .catch(err => {
-          console.error("Gagal mengambil data kualitas agen:", err);
-          document.getElementById('agent-cards-list').innerHTML = '<div class="alert alert-danger text-center">Gagal memuat data dari server.</div>';
-        });
-      
-    } else {
-      executeLocalAgentFilter(fNik, fMon, fTl, fPeak);
-    }
-  }
-
-  function executeLocalAgentFilter(fNik, fMon, fTl, fPeak) {
-    let filtered = rawAgentMasterData.filter(item => {
-      if(fNik && !String(item.nik).toLowerCase().includes(fNik)) return false;
-      if(fMon && item.month !== fMon) return false;
-      if(fTl && item.namaTl !== fTl) return false;
-      if(fPeak && item.peak !== fPeak) return false;
-      return true;
-    });
-
-    renderAgentCards(filtered);
-  }
-
-  function renderAgentCards(data) {
-    let container = document.getElementById('agent-cards-list');
-    document.getElementById('agent-count').innerText = data.length;
-    container.innerHTML = '';
-    
-    if(!data || data.length === 0) {
-      container.innerHTML = '<div class="alert alert-warning text-center">Tidak ada data penilaian agen yang cocok dengan kriteria filter Anda.</div>';
-      return;
-    }
-
-    data.forEach((item, index) => {
-      let rawTextDump = `Nama Agent: ${item.namaAgent || '-'}\nNIK CSDM: ${item.nik || '-'}\nQA Score: ${item.qaScore ?? '-'}\nNama TL: ${item.namaTl || '-'}\nNama SPV: ${item.namaSpv || '-'}\nTgl Penilaian: ${item.tglPenilaian || '-'}\nNo. MSISDN: ${item.msisdn || '-'}\nNo. Pelanggan: ${item.noPelanggan || '-'}\nRecord ID: ${item.recordId || '-'}\nParameter: ${item.parameter || '-'}\nSub Parameter: ${item.subParameter || '-'}\nDetil Parameter: ${item.detilParameter || '-'}\nRekomendasi: ${item.rekomendasi || '-'}\nDetil Masalah: ${item.detilMasalah || '-'}`;
-
-      container.innerHTML += `
-        <div class="agent-card">
-          <div class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-2">
-            <div>
-              <h5 class="fw-bold text-dark mb-0">${item.namaAgent || '-'}</h5>
-              <span class="text-muted small">NIK CSDM: <strong class="text-danger">${item.nik || '-'}</strong></span>
-            </div>
-            <div class="text-end d-flex align-items-center gap-2">
-              <button class="btn btn-outline-secondary btn-xs py-1 px-2" style="font-size: 11px;" onclick="copyCardText(${index}, \`${encodeURIComponent(rawTextDump)}\`)">
-                <i id="copy-icon-${index}" class="fa-regular fa-copy me-1"></i><span id="copy-text-${index}">Copy</span>
-              </button>
-              <span class="badge bg-danger" style="font-size: 14px; padding: 6px 12px;">QA Score: ${item.qaScore ?? '-'}</span>
-            </div>
-          </div>
-          
-          <div class="info-grid">
-            <div class="info-item"><span>Nama TL (Kolom AD)</span><strong>${item.namaTl || '-'}</strong></div>
-            <div class="info-item"><span>Nama SPV (Kolom AE)</span><strong>${item.namaSpv || '-'}</strong></div>
-            <div class="info-item"><span>Tgl Penilaian (Kolom D)</span><strong>${item.tglPenilaian || '-'}</strong></div>
-            <div class="info-item"><span>No. MSISDN (Kolom E)</span><strong>${item.msisdn || '-'}</strong></div>
-            <div class="info-item"><span>No. Pelanggan (Kolom F)</span><strong>${item.noPelanggan || '-'}</strong></div>
-            <div class="info-item"><span>Record ID (Kolom J)</span><strong>${item.recordId || '-'}</strong></div>
-            <div class="info-item"><span>Parameter (Kolom M)</span><strong>${item.parameter || '-'}</strong></div>
-            <div class="info-item"><span>Sub Parameter (Kolom N)</span><strong>${item.subParameter || '-'}</strong></div>
-            <div class="info-item"><span>Detil Parameter (Kolom O)</span><strong>${item.detilParameter || '-'}</strong></div>
-            <div class="info-item" style="grid-column: span 2;"><span>Rekomendasi (Kolom P)</span><strong>${item.rekomendasi || '-'}</strong></div>
-            <div class="info-item" style="grid-column: span 2;"><span>Detil Masalah / Detil CWC (Kolom Q)</span><strong class="text-danger">${item.detilMasalah || '-'}</strong></div>
-          </div>
-        </div>
-      `;
-    });
-  }
-
-  function copyCardText(idx, encodedText) {
-    let decodedText = decodeURIComponent(encodedText);
-    navigator.clipboard.writeText(decodedText).then(() => {
-      let icon = document.getElementById(`copy-icon-${idx}`);
-      let txt = document.getElementById(`copy-text-${idx}`);
-      
-      icon.className = "fa-solid fa-check text-success";
-      txt.innerText = "Copied!";
-      
-      setTimeout(() => {
-        icon.className = "fa-regular fa-copy";
-        txt.innerText = "Copy";
-      }, 2000);
-    }).catch(err => {
-      console.error('Gagal menyalin text: ', err);
-    });
-  }
-
-  function resetAgentFilter() {
-    document.getElementById('fa-nik').value = '';
-    document.getElementById('fa-mon').value = '';
-    document.getElementById('fa-tl').value = '';
-    document.getElementById('fa-peak').value = '';
-    initAgentTabEmptyState();
-  }
-
-  // =========================================================
-  // CORE MANAGEMENT FOR DASHBOARD
-  // =========================================================
   function resetFilter() {
-    ['f-chan','f-mon','f-spv','f-tl'].forEach(id => document.getElementById(id).value = '');
+    ['f-chan','f-mon','f-year','f-start-date','f-end-date','f-spv','f-tl'].forEach(id => document.getElementById(id).value = '');
     loadData();
   }
 
@@ -570,39 +306,44 @@
     document.getElementById('loading').style.display = 'flex';
     let channel = encodeURIComponent(document.getElementById('f-chan').value);
     let month = encodeURIComponent(document.getElementById('f-mon').value);
+    let year = encodeURIComponent(document.getElementById('f-year').value);
+    let startDate = document.getElementById('f-start-date').value;
+    let endDate = document.getElementById('f-end-date').value;
     let spv = encodeURIComponent(document.getElementById('f-spv').value);
     let tl = encodeURIComponent(document.getElementById('f-tl').value);
     
-    fetch(`${API_URL}?action=getDashboardData&channel=${channel}&month=${month}&spv=${spv}&tl=${tl}`)
+    fetch(`${API_URL}?action=getDashboardData&channel=${channel}&month=${month}&year=${year}&startDate=${startDate}&endDate=${endDate}&spv=${spv}&tl=${tl}`)
       .then(response => response.json())
       .then(res => {
         document.getElementById('v-total').innerText = res.totalSample;
-        updateBox('att', res.boxes["Attitude Compliance"]); updateBox('ski', res.boxes["Skill Compliance"]);
-        updateBox('kno', res.boxes["Knowledge Compliance"]); updateBox('ok', res.boxes["OK"]); updateBox('not', res.boxes["NOTES"]);
+        updateBox('att', res.boxes["Attitude Compliance"]); 
+        updateBox('ski', res.boxes["Skill Compliance"]);
+        updateBox('kno', res.boxes["Knowledge Compliance"]); 
+        updateBox('ok', res.boxes["OK"]);
 
         renderBar('c-qmon', res.qMonthly, 'Quality Score', '#C31F26');
-        renderBar('c-lmob', res.qLosMobile, 'Score', '#941318');
-        renderBar('c-lfix', res.qLosFixed, 'Score', '#941318');
-        renderBar('c-pqm', res.qPeakMobile, 'Score', '#E63946');
-        renderBar('c-pqf', res.qPeakFixed, 'Score', '#E63946');
+        renderBar('c-lmob', res.qLosMobile, 'Score (Mobile Daily)', '#941318');
+        renderBar('c-lfix', res.qLosFixed, 'Score (Fixed Daily)', '#941318');
 
-        renderStacked('c-pmob', res.trendPeakMobile);
-        renderStacked('c-pfix', res.trendPeakFixed);
+        renderStacked('c-pmob', res.trendDailyMobile);
+        renderStacked('c-pfix', res.trendDailyFixed);
 
         fillT('t-spv', res.qmSpv); fillT('t-tl', res.qmTl);
 
-        fillL('top-att', res.top10["Attitude Compliance"]); fillL('top-ski', res.top10["Skill Compliance"]);
-        fillL('top-kno', res.top10["Knowledge Compliance"]); fillL('top-not', res.top10["NOTES"]);
+        fillL('top-att', res.top10["Attitude Compliance"]); 
+        fillL('top-ski', res.top10["Skill Compliance"]);
+        fillL('top-kno', res.top10["Knowledge Compliance"]);
+        
+        fillAgentL('top-nok-mob', res.top10NokMobile);
+        fillAgentL('top-nok-fix', res.top10NokFixed);
 
         document.getElementById('loading').style.display = 'none';
       })
-      .catch(err => {
-        console.error("Gagal memuat data dashboard:", err);
-        document.getElementById('loading').style.display = 'none';
-      });
+      .catch(err => { console.error(err); document.getElementById('loading').style.display = 'none'; });
   }
 
   function updateBox(id, data) {
+    if(!data) return;
     document.getElementById('v-'+id).innerText = data.pct + '%';
     let b = document.getElementById('b-'+id); b.innerHTML = '';
     data.breakdown.forEach(x => b.innerHTML += `<div class="d-flex justify-content-between border-bottom mb-1"><span>${x.name}</span><b>${x.pct}%</b></div>`);
@@ -612,16 +353,16 @@
     if(charts[id]) charts[id].destroy();
     charts[id] = new Chart(document.getElementById(id), {
       type: 'bar',
-      data: { labels: Object.keys(data), datasets: [{ label, data: Object.values(data), backgroundColor: color }] },
+      data: { labels: Object.keys(data).sort(), datasets: [{ label, data: Object.values(data), backgroundColor: color }] },
       options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, max: 100 } } }
     });
   }
 
   function renderStacked(id, data) {
     if(charts[id]) charts[id].destroy();
-    let labels = Object.keys(data);
-    let sets = ["Attitude Compliance", "Skill Compliance", "Knowledge Compliance", "OK", "NOTES"];
-    let colors = ['#C31F26', '#F4A261', '#2A9D8F', '#28a745', '#ffc107'];
+    let labels = Object.keys(data).sort();
+    let sets = ["Attitude Compliance", "Skill Compliance", "Knowledge Compliance", "OK"];
+    let colors = ['#C31F26', '#F4A261', '#2A9D8F', '#28a745'];
     let datasets = sets.map((s, i) => ({ label: s, data: labels.map(l => (data[l] ? data[l][s] : 0) || 0), backgroundColor: colors[i] }));
     
     charts[id] = new Chart(document.getElementById(id), {
@@ -633,7 +374,7 @@
 
   function fillT(id, data) {
     let b = document.getElementById(id).querySelector('tbody'); b.innerHTML = '';
-    for(let k in data) b.innerHTML += `<tr><td>${k}</td><td class="fw-bold text-danger">${data[k]}</td></tr>`;
+    for(let k in data) b.innerHTML += `<tr><td>${k}</td><td class="fw-bold text-danger">${data[k]}%</td></tr>`;
   }
 
   function fillL(id, data) {
@@ -642,16 +383,17 @@
     data.forEach(x => d.innerHTML += `<div class="border-bottom mb-1 d-flex justify-content-between"><span>${x.case}</span><span class="badge bg-danger">${x.count}</span></div>`);
   }
 
+  function fillAgentL(id, data) {
+    let d = document.getElementById(id); d.innerHTML = '';
+    if(!data || data.length === 0) { d.innerHTML = '<div class="text-muted text-center py-2">Tidak ada data deviasi (100% OK)</div>'; return; }
+    data.forEach(x => d.innerHTML += `<div class="border-bottom mb-1 d-flex justify-content-between"><span>${x.agent}</span><span class="badge bg-dark">${x.count} Kasus NOK</span></div>`);
+  }
+
   function switchTab(t) {
     document.getElementById('dash-content').classList.toggle('d-none', t !== 'dash');
     document.getElementById('agent-content').classList.toggle('d-none', t !== 'agent');
-    
     document.getElementById('m-dash').classList.toggle('active', t === 'dash');
     document.getElementById('m-agent').classList.toggle('active', t === 'agent');
-  }
-
-  function downloadPDF() {
-    window.print();
   }
 </script>
 </body>
