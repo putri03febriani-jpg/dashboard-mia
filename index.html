@@ -296,97 +296,64 @@
 
   <div id="agent-content" class="d-none">
     <h3 class="fw-bold mb-4">Quality per Agent</h3>
-    <p class="text-muted small">Fitur pencarian riwayat data detil per individu agent.</p>
+    <p class="text-muted small">Fitur pencarian data detil per individu agent.</p>
   </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-  // GANTI DENGAN URL WEB APP DEPLOYMENT BARU ANDA JIKA BERUBAH
+  // SILAHKAN PASTI-KAN URL WEB APP ANDA DI BAWAH INI SUDAH BENAR BERAKHIRAN /exec
   const API_URL = "https://script.google.com/macros/s/AKfycbwQTX1j1hbSqqaczeFrIV3WtTZzXuUoJrzaxV63vbZmPVj1fYO5CYSupFF_rYgj5nXi/exec";
 
   let charts = {};
-  let cachedFilters = null;
 
-  // Preload data opsi filter di background semenjak halaman pertama kali dibuka agar login instan
-  window.addEventListener('DOMContentLoaded', () => {
-    preloadFilterOptions();
-  });
-
-  function preloadFilterOptions() {
-    fetch(`${API_URL}?action=getFilterOptions`)
-      .then(response => response.json())
-      .then(opts => {
-        cachedFilters = opts;
-      })
-      .catch(err => {
-        console.error("Gagal memuat opsi filter di background:", err);
-      });
-  }
-
+  // DIKEMBALIKAN SEPERTI SEMULA: Alur login langsung membuka screen utama & memanggil filter opsi
   function checkLogin() {
     let userVal = document.getElementById('username').value.trim();
     let passVal = document.getElementById('password').value.trim();
     
     if (userVal === "qc" && passVal === "188") {
+      document.getElementById('login-screen').style.display = 'none';
+      document.getElementById('app-sidebar').style.display = 'flex';
+      document.getElementById('app-main').style.display = 'block';
       document.getElementById('loading').style.display = 'flex';
       
-      // Jika data filter latar belakang siap, langsung masuk (Super Cepat!)
-      if (cachedFilters) {
-        applyFilterOptions(cachedFilters);
-        enterDashboard();
-      } else {
-        // Fallback jika belum selesai termuat, ditunggu maks 12 detik agar tidak stuck loading
-        let timeout = setTimeout(() => {
-          document.getElementById('loading').style.display = 'none';
-          alert("Koneksi jaringan lambat. Silahkan klik tombol Masuk kembali.");
-        }, 12000);
-
-        fetch(`${API_URL}?action=getFilterOptions`)
-          .then(response => response.json())
-          .then(opts => {
-            clearTimeout(timeout);
-            applyFilterOptions(opts);
-            enterDashboard();
-          })
-          .catch(err => {
-            clearTimeout(timeout);
-            document.getElementById('loading').style.display = 'none';
-            alert("Gagal terhubung dengan server backend Apps Script.");
-            console.error(err);
-          });
-      }
+      // Ambil opsi filter dari spreadsheet saat masuk halaman utama
+      initializeAppOptions();
     } else {
       document.getElementById('login-alert').classList.remove('d-none');
     }
   }
 
-  function applyFilterOptions(opts) {
-    document.getElementById('f-chan').innerHTML = '<option value="">All</option>';
-    document.getElementById('f-mon').innerHTML = '<option value="">All</option>';
-    document.getElementById('f-year').innerHTML = '<option value="">All</option>';
-    document.getElementById('f-spv').innerHTML = '<option value="">All</option>';
-    document.getElementById('tl-options').innerHTML = '';
+  function initializeAppOptions() {
+    fetch(`${API_URL}?action=getFilterOptions`)
+      .then(response => response.json())
+      .then(opts => {
+        // Reset isi option agar bersih
+        document.getElementById('f-chan').innerHTML = '<option value="">All</option>';
+        document.getElementById('f-mon').innerHTML = '<option value="">All</option>';
+        document.getElementById('f-year').innerHTML = '<option value="">All</option>';
+        document.getElementById('f-spv').innerHTML = '<option value="">All</option>';
+        document.getElementById('tl-options').innerHTML = '';
 
-    fillS('f-chan', opts.channels); 
-    fillS('f-mon', opts.months);
-    fillS('f-year', opts.years); 
-    fillS('f-spv', opts.spvs);
-    
-    let dl = document.getElementById('tl-options');
-    if(opts.tls) {
-      opts.tls.forEach(t => { if(t) dl.innerHTML += `<option value="${t}">`; });
-    }
-  }
+        fillS('f-chan', opts.channels); 
+        fillS('f-mon', opts.months);
+        fillS('f-year', opts.years); 
+        fillS('f-spv', opts.spvs);
+        
+        let dl = document.getElementById('tl-options');
+        if(opts.tls) {
+          opts.tls.forEach(t => { if(t) dl.innerHTML += `<option value="${t}">`; });
+        }
 
-  function enterDashboard() {
-    document.getElementById('login-screen').style.display = 'none';
-    document.getElementById('app-sidebar').style.display = 'flex';
-    document.getElementById('app-main').style.display = 'block';
-    document.getElementById('loading').style.display = 'none';
-    
-    // Sesuai Rekues: Tampilan awal dikosongkan sebelum klik 'Cari'
-    clearDashboardVisuals();
+        // Tampilan data awal langsung disetel kosong agar pemuatan super cepat
+        clearDashboardVisuals();
+        document.getElementById('loading').style.display = 'none';
+      })
+      .catch(err => { 
+        console.error(err); 
+        document.getElementById('loading').style.display = 'none'; 
+      });
   }
 
   function clearDashboardVisuals() {
@@ -414,8 +381,6 @@
     document.getElementById('app-sidebar').style.display = 'none';
     document.getElementById('app-main').style.display = 'none';
     document.getElementById('login-alert').classList.add('d-none');
-    cachedFilters = null;
-    preloadFilterOptions(); // Ambil ulang data fresh opsi
   }
 
   function fillS(id, data) {
@@ -490,7 +455,6 @@
     });
   }
 
-  // Fungsi gambar grafik batang harian bertumpuk terurut dari tgl 1 - 31 secara berurutan
   function renderStacked(id, data) {
     if(charts[id]) charts[id].destroy();
     let labels = Object.keys(data).sort((a,b) => parseInt(a) - parseInt(b));
@@ -518,12 +482,16 @@
 
   function fillAgentL(id, data) {
     let d = document.getElementById(id); d.innerHTML = '';
-    if(!data || data.length === 0) { d.innerHTML = '<div class="text-muted text-center py-2">Tidak ada data deviasi (100% OK)</div>'; return; }
+    if(!data || data.length === 0) { d.innerHTML = '<div class="text-muted text-center py-2">100% OK</div>'; return; }
     data.forEach(x => d.innerHTML += `<div class="border-bottom mb-1 d-flex justify-content-between"><span>${x.agent}</span><span class="badge bg-dark">${x.count} Kasus NOK</span></div>`);
   }
 
+  /* SWITCH MENU TAB */
   function switchTab(t) {
     document.getElementById('dash-content').classList.toggle('d-none', t !== 'dash');
+    document.getElementById('agent-content').classList.toggle('d-none', t !== 'agent');
+    document.getElementById('m-dash').classList.toggle('active', t === 'dash');
+    document.getElementById('m-agent').classList.toggle('active', t === 'agent');
   }
 </script>
 </body>
