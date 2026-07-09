@@ -7,109 +7,26 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
   <style>
-    :root { 
-      --chili: #C31F26; 
-      --chili-dark: #941318; 
-    }
-    body { 
-      font-family: 'Poppins', sans-serif; 
-      background: #f4f7f6; 
-    }
-    
-    #login-screen {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: linear-gradient(135deg, #f4f7f6 0%, #e2e8f0 100%);
-      z-index: 10000;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .login-card {
-      background: white;
-      padding: 50px 45px; 
-      border-radius: 20px;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-      width: 100%;
-      max-width: 500px; 
-      border-top: 8px solid var(--chili); 
-      position: relative;
-    }
-    .login-card h3 { font-size: 28px; }
-
-    /* SIDEBAR WITH LOGOUT BOTTOM */
-    .sidebar { 
-      position: fixed; 
-      top: 0; bottom: 0; left: 0; 
-      width: 260px; 
-      background: var(--chili); 
-      color: white; 
-      z-index: 100; 
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-    .sidebar .brand { 
-      padding: 25px; 
-      background: var(--chili-dark); 
-      font-weight: 700; 
-      font-size: 24px; 
-      text-align: center; 
-    }
-    .nav-link { 
-      color: rgba(255,255,255,0.8); 
-      padding: 15px 25px; 
-      cursor: pointer; 
-      display: flex;
-      align-items: center;
-    }
+    :root { --chili: #C31F26; --chili-dark: #941318; }
+    body { font-family: 'Poppins', sans-serif; background: #f4f7f6; }
+    #login-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #f4f7f6 0%, #e2e8f0 100%); z-index: 10000; display: flex; justify-content: center; align-items: center; }
+    .login-card { background: white; padding: 50px 45px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); width: 100%; max-width: 500px; border-top: 8px solid var(--chili); position: relative; }
+    .sidebar { position: fixed; top: 0; bottom: 0; left: 0; width: 260px; background: var(--chili); color: white; z-index: 100; display: flex; flex-direction: column; justify-content: space-between; }
+    .sidebar .brand { padding: 25px; background: var(--chili-dark); font-weight: 700; font-size: 24px; text-align: center; }
+    .nav-link { color: rgba(255,255,255,0.8); padding: 15px 25px; cursor: pointer; display: flex; align-items: center; }
     .nav-link:hover { background: rgba(0,0,0,0.1); color: white; }
-    .nav-link.active { 
-      background: var(--chili-dark); 
-      color: white; 
-      border-left: 5px solid white; 
-    }
-    .logout-section {
-      padding: 15px 25px;
-      background: var(--chili-dark);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      color: rgba(255,255,255,0.9);
-      font-weight: 600;
-      border-top: 1px solid rgba(255,255,255,0.1);
-    }
+    .nav-link.active { background: var(--chili-dark); color: white; border-left: 5px solid white; }
+    .logout-section { padding: 15px 25px; background: var(--chili-dark); cursor: pointer; display: flex; align-items: center; color: rgba(255,255,255,0.9); font-weight: 600; border-top: 1px solid rgba(255,255,255,0.1); }
     .logout-section:hover { background: #6b0b0f; color: white; }
-    
     .main { margin-left: 260px; padding: 30px; }
-    .filter-card { 
-      background: white; border-radius: 15px; padding: 20px; 
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 25px; 
-    }
-    .kpi-card { 
-      background: white; border-radius: 12px; border-top: 5px solid var(--chili); 
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05); height: 100%; display: flex; flex-direction: column; 
-    }
+    .filter-card { background: white; border-radius: 15px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 25px; }
+    .kpi-card { background: white; border-radius: 12px; border-top: 5px solid var(--chili); box-shadow: 0 4px 10px rgba(0,0,0,0.05); height: 100%; display: flex; flex-direction: column; }
     .kpi-val { font-size: 24px; font-weight: 700; color: var(--chili); }
     .breakdown-box { flex-grow: 1; overflow-y: auto; max-height: 150px; font-size: 11px; margin-top: 10px; }
-    .chart-container { 
-      background: white; border-radius: 15px; padding: 20px; 
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 25px; height: 350px; 
-    }
-    .table-scroll-container { 
-      background: white; border-radius: 15px; padding: 20px; 
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 25px; height: 260px; overflow-y: auto; 
-    }
-    .chart-title { 
-      font-size: 14px; font-weight: 600; border-left: 4px solid var(--chili); padding-left: 10px; margin-bottom: 15px; 
-    }
-    #loading { 
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-      background: rgba(255,255,255,0.9); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; 
-    }
-    .agent-list-container { max-height: calc(100vh - 280px); overflow-y: auto; }
-    .agent-card { background: white; border-radius: 12px; border-left: 5px solid var(--chili); box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 15px; padding: 15px; }
-    .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; font-size: 11px; background: #fafafa; padding: 12px; border-radius: 8px; }
+    .chart-container { background: white; border-radius: 15px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 25px; height: 350px; }
+    .table-scroll-container { background: white; border-radius: 15px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 25px; height: 260px; overflow-y: auto; }
+    .chart-title { font-size: 14px; font-weight: 600; border-left: 4px solid var(--chili); padding-left: 10px; margin-bottom: 15px; }
+    #loading { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.9); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; }
   </style>
 </head>
 <body>
@@ -142,63 +59,36 @@
   <div>
     <div class="brand">MIA</div>
     <ul class="nav flex-column mt-4">
-      <li class="nav-item">
-        <a class="nav-link active" id="m-dash" onclick="switchTab('dash')">
-          <i class="fa-solid fa-house me-2"></i> Dashboard
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" id="m-agent" onclick="switchTab('agent')">
-          <i class="fa-solid fa-user me-2"></i> Quality per Agent
-        </a>
-      </li>
+      <li class="nav-item"><a class="nav-link active" id="m-dash" onclick="switchTab('dash')"><i class="fa-solid fa-house me-2"></i> Dashboard</a></li>
+      <li class="nav-item"><a class="nav-link" id="m-agent" onclick="switchTab('agent')"><i class="fa-solid fa-user me-2"></i> Quality per Agent</a></li>
     </ul>
   </div>
-  <div class="logout-section" onclick="processLogout()">
-    <i class="fa-solid fa-right-from-bracket me-2"></i> Keluar / Logout
-  </div>
+  <div class="logout-section" onclick="processLogout()"><i class="fa-solid fa-right-from-bracket me-2"></i> Keluar / Logout</div>
 </div>
 
 <div id="app-main" class="main" style="display: none;">
   <div id="dash-content">
     <div class="d-flex justify-content-between align-items-center mb-4">
       <h3 class="fw-bold mb-0">Monitoring Interaction Agent (MIA)</h3>
-      <button class="btn btn-dark btn-sm px-3" onclick="window.print()">
-        <i class="fa-solid fa-file-pdf me-2"></i>Download PDF
-      </button>
+      <button class="btn btn-dark btn-sm px-3" onclick="window.print()"><i class="fa-solid fa-file-pdf me-2"></i>Download PDF</button>
     </div>
     
     <div class="filter-card">
       <div class="row g-3 align-items-end">
-        <div class="col-md-2">
-          <label class="form-label small fw-bold">Channel</label>
-          <select id="f-chan" class="form-select form-select-sm"><option value="">All</option></select>
+        <div class="col-md-2"><label class="form-label small fw-bold">Channel</label><select id="f-chan" class="form-select form-select-sm"><option value="">All</option></select></div>
+        <div class="col-md-2"><label class="form-label small fw-bold">Bulan</label><select id="f-mon" class="form-select form-select-sm"><option value="">All</option></select></div>
+        <div class="col-md-2"><label class="form-label small fw-bold">Tahun</label><select id="f-year" class="form-select form-select-sm"><option value="">All</option></select></div>
+        <div class="col-md-2"><label class="form-label small fw-bold">Tgl Awal (AC)</label><input type="date" id="f-start-date" class="form-control form-control-sm"></div>
+        <div class="col-md-2"><label class="form-label small fw-bold">Tgl Akhir (AC)</label><input type="date" id="f-end-date" class="form-control form-control-sm"></div>
+        <div class="col-md-2"><label class="form-label small fw-bold">SPV</label><select id="f-spv" class="form-select form-select-sm"><option value="">All</option></select></div>
+        
+        <div class="col-md-4">
+          <label class="form-label small fw-bold">TL (Bisa Diketik & Dicari)</label>
+          <input list="tl-options" id="f-tl" class="form-control form-control-sm" placeholder="Ketik nama TL untuk mencari...">
+          <datalist id="tl-options"></datalist>
         </div>
-        <div class="col-md-2">
-          <label class="form-label small fw-bold">Bulan</label>
-          <select id="f-mon" class="form-select form-select-sm"><option value="">All</option></select>
-        </div>
-        <div class="col-md-2">
-          <label class="form-label small fw-bold">Tahun</label>
-          <select id="f-year" class="form-select form-select-sm"><option value="">All</option></select>
-        </div>
-        <div class="col-md-2">
-          <label class="form-label small fw-bold">Tgl Awal (AC)</label>
-          <input type="date" id="f-start-date" class="form-control form-control-sm">
-        </div>
-        <div class="col-md-2">
-          <label class="form-label small fw-bold">Tgl Akhir (AC)</label>
-          <input type="date" id="f-end-date" class="form-control form-control-sm">
-        </div>
-        <div class="col-md-1">
-          <label class="form-label small fw-bold">SPV</label>
-          <select id="f-spv" class="form-select form-select-sm"><option value="">All</option></select>
-        </div>
-        <div class="col-md-1">
-          <label class="form-label small fw-bold">TL</label>
-          <select id="f-tl" class="form-select form-select-sm"><option value="">All</option></select>
-        </div>
-        <div class="col-md-12 text-end mt-2">
+        
+        <div class="col-md-8 text-end">
           <button class="btn btn-danger btn-sm px-4" onclick="loadData()"><i class="fa fa-search me-1"></i> Cari</button>
           <button class="btn btn-outline-secondary btn-sm px-3" onclick="resetFilter()"><i class="fa fa-undo me-1"></i> Reset</button>
         </div>
@@ -240,19 +130,11 @@
       <div class="col-md-6"><div class="chart-container h-auto"><div class="chart-title">TOP 10 NOK Agent Fixed</div><div id="top-nok-fix" class="small"></div></div></div>
     </div>
   </div>
-
-  <div id="agent-content" class="d-none">
-    <h3 class="fw-bold mb-4">Quality per Agent</h3>
-    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-  const API_URL = "https://script.google.com/macros/s/AKfycbwQTX1j1hbSqqaczeFrIV3WtTZzXuUoJrzaxV63vbZmPVj1fYO5CYSupFF_rYgj5nXi/exec";
-
   let charts = {};
-  let rawAgentMasterData = []; 
-  let isAgentDataLoaded = false; 
 
   function checkLogin() {
     let userVal = document.getElementById('username').value.trim();
@@ -262,7 +144,9 @@
       document.getElementById('app-sidebar').style.display = 'flex';
       document.getElementById('app-main').style.display = 'block';
       document.getElementById('loading').style.display = 'flex';
-      initializeAppDashboard();
+      
+      // Kecepatan dioptimalkan: Hanya mengambil opsi filter di awal, data utama dibiarkan kosong
+      initializeAppOptions();
     } else {
       document.getElementById('login-alert').classList.remove('d-none');
     }
@@ -279,22 +163,28 @@
     document.getElementById('login-alert').classList.add('d-none');
   }
 
-  function initializeAppDashboard() {
+  function initializeAppOptions() {
     fetch(`${API_URL}?action=getFilterOptions`)
       .then(response => response.json())
       .then(opts => {
-        fillS('f-chan', opts.channels); fillS('f-mon', opts.months);
-        fillS('f-year', opts.years); fillS('f-spv', opts.spvs); fillS('f-tl', opts.tls);
-        loadData(); 
+        fillS('f-chan', opts.channels); 
+        fillS('f-mon', opts.months);
+        fillS('f-year', opts.years); 
+        fillS('f-spv', opts.spvs);
+        
+        // Memasukkan opsi TL ke datalist search
+        let dl = document.getElementById('tl-options');
+        dl.innerHTML = '';
+        opts.tls.forEach(t => { if(t) dl.innerHTML += `<option value="${t}">`; });
+
+        document.getElementById('loading').style.display = 'none';
       })
       .catch(err => { console.error(err); document.getElementById('loading').style.display = 'none'; });
   }
 
   function fillS(id, data) {
     let s = document.getElementById(id);
-    if(s && data) {
-      data.forEach(d => { if(d) s.innerHTML += `<option value="${d}">${d}</option>`; });
-    }
+    if(s && data) data.forEach(d => { if(d) s.innerHTML += `<option value="${d}">${d}</option>`; });
   }
 
   function resetFilter() {
@@ -322,8 +212,8 @@
         updateBox('ok', res.boxes["OK"]);
 
         renderBar('c-qmon', res.qMonthly, 'Quality Score', '#C31F26');
-        renderBar('c-lmob', res.qLosMobile, 'Score (Mobile Daily)', '#941318');
-        renderBar('c-lfix', res.qLosFixed, 'Score (Fixed Daily)', '#941318');
+        renderBar('c-lmob', res.qLosMobile, 'Score (Mobile LOS Daily)', '#941318');
+        renderBar('c-lfix', res.qLosFixed, 'Score (Fixed LOS Daily)', '#941318');
 
         renderStacked('c-pmob', res.trendDailyMobile);
         renderStacked('c-pfix', res.trendDailyFixed);
@@ -346,21 +236,23 @@
     if(!data) return;
     document.getElementById('v-'+id).innerText = data.pct + '%';
     let b = document.getElementById('b-'+id); b.innerHTML = '';
-    data.breakdown.forEach(x => b.innerHTML += `<div class="d-flex justify-content-between border-bottom mb-1"><span>${x.name}</span><b>${x.pct}%</b></div>`);
+    if(data.breakdown) {
+      data.breakdown.forEach(x => b.innerHTML += `<div class="d-flex justify-content-between border-bottom mb-1"><span>${x.name}</span><b>${x.pct}%</b></div>`);
+    }
   }
 
   function renderBar(id, data, label, color) {
     if(charts[id]) charts[id].destroy();
     charts[id] = new Chart(document.getElementById(id), {
       type: 'bar',
-      data: { labels: Object.keys(data).sort(), datasets: [{ label, data: Object.values(data), backgroundColor: color }] },
+      data: { labels: Object.keys(data), datasets: [{ label, data: Object.values(data), backgroundColor: color }] },
       options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, max: 100 } } }
     });
   }
 
   function renderStacked(id, data) {
     if(charts[id]) charts[id].destroy();
-    let labels = Object.keys(data).sort();
+    let labels = Object.keys(data).sort((a,b) => parseInt(a) - parseInt(b));
     let sets = ["Attitude Compliance", "Skill Compliance", "Knowledge Compliance", "OK"];
     let colors = ['#C31F26', '#F4A261', '#2A9D8F', '#28a745'];
     let datasets = sets.map((s, i) => ({ label: s, data: labels.map(l => (data[l] ? data[l][s] : 0) || 0), backgroundColor: colors[i] }));
@@ -385,15 +277,12 @@
 
   function fillAgentL(id, data) {
     let d = document.getElementById(id); d.innerHTML = '';
-    if(!data || data.length === 0) { d.innerHTML = '<div class="text-muted text-center py-2">Tidak ada data deviasi (100% OK)</div>'; return; }
+    if(!data || data.length === 0) { d.innerHTML = '<div class="text-muted text-center py-2">Tidak ada data deviasi</div>'; return; }
     data.forEach(x => d.innerHTML += `<div class="border-bottom mb-1 d-flex justify-content-between"><span>${x.agent}</span><span class="badge bg-dark">${x.count} Kasus NOK</span></div>`);
   }
 
   function switchTab(t) {
     document.getElementById('dash-content').classList.toggle('d-none', t !== 'dash');
-    document.getElementById('agent-content').classList.toggle('d-none', t !== 'agent');
-    document.getElementById('m-dash').classList.toggle('active', t === 'dash');
-    document.getElementById('m-agent').classList.toggle('active', t === 'agent');
   }
 </script>
 </body>
