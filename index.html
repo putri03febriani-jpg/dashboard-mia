@@ -156,16 +156,6 @@
       justify-content: center; 
       align-items: center; 
     }
-
-    /* ERROR BANNER (baru) */
-    #error-banner {
-      display: none;
-      position: fixed;
-      top: 15px; left: 50%;
-      transform: translateX(-50%);
-      z-index: 10500;
-      max-width: 90%;
-    }
   </style>
 </head>
 <body>
@@ -193,8 +183,6 @@
   <div class="spinner-border text-danger" style="width: 3rem; height: 3rem;"></div>
   <div class="mt-3 fw-bold">Memproses Data MIA...</div>
 </div>
-
-<div id="error-banner" class="alert alert-danger shadow"></div>
 
 <div id="app-sidebar" class="sidebar" style="display: none;">
   <div>
@@ -228,27 +216,19 @@
     
     <div class="filter-card">
       <div class="row g-3 align-items-end">
-        <div class="col-md-2">
+        <div class="col-md-3">
           <label class="form-label small fw-bold">Channel</label>
           <select id="f-chan" class="form-select form-select-sm"><option value="">All</option></select>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-3">
           <label class="form-label small fw-bold">Bulan</label>
           <select id="f-mon" class="form-select form-select-sm"><option value="">All</option></select>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-3">
           <label class="form-label small fw-bold">Tahun</label>
           <select id="f-year" class="form-select form-select-sm"><option value="">All</option></select>
         </div>
-        <div class="col-md-2">
-          <label class="form-label small fw-bold">Tgl Awal (AC)</label>
-          <input type="date" id="f-start-date" class="form-control form-control-sm">
-        </div>
-        <div class="col-md-2">
-          <label class="form-label small fw-bold">Tgl Akhir (AC)</label>
-          <input type="date" id="f-end-date" class="form-control form-control-sm">
-        </div>
-        <div class="col-md-2">
+        <div class="col-md-3">
           <label class="form-label small fw-bold">SPV</label>
           <select id="f-spv" class="form-select form-select-sm"><option value="">All</option></select>
         </div>
@@ -314,18 +294,11 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-  // SILAHKAN PASTIKAN URL WEB APP ANDA DI BAWAH INI SUDAH BENAR BERAKHIRAN /exec
   const API_URL = "https://script.google.com/macros/s/AKfycbwQTX1j1hbSqqaczeFrIV3WtTZzXuUoJrzaxV63vbZmPVj1fYO5CYSupFF_rYgj5nXi/exec";
 
   let charts = {};
 
-  function showError(msg) {
-    const el = document.getElementById('error-banner');
-    el.innerText = msg;
-    el.style.display = 'block';
-    setTimeout(() => { el.style.display = 'none'; }, 8000);
-  }
-
+  // Alur login asli: langsung membuka halaman dashboard lalu memanggil inisialisasi filter
   function checkLogin() {
     let userVal = document.getElementById('username').value.trim();
     let passVal = document.getElementById('password').value.trim();
@@ -344,15 +317,8 @@
 
   function initializeAppOptions() {
     fetch(`${API_URL}?action=getFilterOptions`)
-      .then(response => {
-        if (!response.ok) throw new Error('HTTP ' + response.status + ' saat memanggil API.');
-        return response.json();
-      })
+      .then(response => response.json())
       .then(opts => {
-        if (opts.status === 'error') {
-          throw new Error(opts.message || 'Backend mengembalikan error saat mengambil filter.');
-        }
-
         document.getElementById('f-chan').innerHTML = '<option value="">All</option>';
         document.getElementById('f-mon').innerHTML = '<option value="">All</option>';
         document.getElementById('f-year').innerHTML = '<option value="">All</option>';
@@ -372,10 +338,9 @@
         clearDashboardVisuals();
         document.getElementById('loading').style.display = 'none';
       })
-      .catch(err => {
-        console.error(err);
-        showError('Gagal mengambil opsi filter: ' + err.message + '. Cek deployment Apps Script (harus "Anyone" & versi terbaru), dan pastikan nama sheet "DETIL QM" benar.');
-        document.getElementById('loading').style.display = 'none';
+      .catch(err => { 
+        console.error(err); 
+        document.getElementById('loading').style.display = 'none'; 
       });
   }
 
@@ -412,7 +377,7 @@
   }
 
   function resetFilter() {
-    ['f-chan','f-mon','f-year','f-start-date','f-end-date','f-spv','f-tl'].forEach(id => document.getElementById(id).value = '');
+    ['f-chan','f-mon','f-year','f-spv','f-tl'].forEach(id => document.getElementById(id).value = '');
     clearDashboardVisuals();
   }
 
@@ -421,21 +386,13 @@
     let channel = encodeURIComponent(document.getElementById('f-chan').value);
     let month = encodeURIComponent(document.getElementById('f-mon').value);
     let year = encodeURIComponent(document.getElementById('f-year').value);
-    let startDate = document.getElementById('f-start-date').value;
-    let endDate = document.getElementById('f-end-date').value;
     let spv = encodeURIComponent(document.getElementById('f-spv').value);
     let tl = encodeURIComponent(document.getElementById('f-tl').value);
     
-    fetch(`${API_URL}?action=getDashboardData&channel=${channel}&month=${month}&year=${year}&startDate=${startDate}&endDate=${endDate}&spv=${spv}&tl=${tl}`)
-      .then(response => {
-        if (!response.ok) throw new Error('HTTP ' + response.status + ' saat memanggil API.');
-        return response.json();
-      })
+    // Pemanggilan API disederhanakan tanpa parameter startDate dan endDate
+    fetch(`${API_URL}?action=getDashboardData&channel=${channel}&month=${month}&year=${year}&spv=${spv}&tl=${tl}`)
+      .then(response => response.json())
       .then(res => {
-        if (res.status === 'error') {
-          throw new Error(res.message || 'Backend mengembalikan error saat mengambil data dashboard.');
-        }
-
         document.getElementById('v-total').innerText = res.totalSample;
         updateBox('att', res.boxes["Attitude Compliance"]); 
         updateBox('ski', res.boxes["Skill Compliance"]);
@@ -458,16 +415,12 @@
         fillAgentL('top-nok-mob', res.top10NokMobile);
         fillAgentL('top-nok-fix', res.top10NokFixed);
 
-        if (res.totalSample === 0) {
-          showError('Tidak ada data yang cocok dengan filter yang dipilih. Coba longgarkan filter (misalnya kosongkan Bulan/Tahun/Tgl).');
-        }
-
         document.getElementById('loading').style.display = 'none';
       })
       .catch(err => { 
         console.error(err); 
         document.getElementById('loading').style.display = 'none';
-        showError('Terjadi masalah saat memproses pencarian data: ' + err.message);
+        alert("Terjadi masalah saat memproses pencarian data.");
       });
   }
 
@@ -520,7 +473,6 @@
     data.forEach(x => d.innerHTML += `<div class="border-bottom mb-1 d-flex justify-content-between"><span>${x.agent}</span><span class="badge bg-dark">${x.count} Kasus NOK</span></div>`);
   }
 
-  /* SWITCH MENU TAB */
   function switchTab(t) {
     document.getElementById('dash-content').classList.toggle('d-none', t !== 'dash');
     document.getElementById('agent-content').classList.toggle('d-none', t !== 'agent');
